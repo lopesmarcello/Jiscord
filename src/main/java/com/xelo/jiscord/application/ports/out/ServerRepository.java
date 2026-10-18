@@ -1,4 +1,7 @@
 package com.xelo.jiscord.application.ports.out;
 
-public class ServerRepository {
+import com.xelo.jiscord.domain.server.ServerId;
+
+public interface ServerRepository {
+    boolean existsById(ServerId serverId);
 }
