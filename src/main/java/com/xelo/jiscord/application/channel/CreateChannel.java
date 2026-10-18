@@ -20,4 +20,8 @@ public class CreateChannel {
         this.serverRepository = serverRepository;
         this.channelRepository = channelRepository;
     }
+
+    public execute(CreateChannelCommand command) {
+
+    }
 }
