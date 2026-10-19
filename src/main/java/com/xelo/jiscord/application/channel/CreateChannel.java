@@ -21,7 +21,8 @@ public class CreateChannel {
         this.channelRepository = channelRepository;
     }
 
-    public execute(CreateChannelCommand command) {
+    public void execute(CreateChannelCommand command) {
+        throw new UnsupportedOperationException("Not implemented yet");
 
     }
 }
