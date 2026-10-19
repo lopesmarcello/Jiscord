@@ -1,10 +1,8 @@
-package com.xelo.jiscord.domain.application.channel;
+package com.xelo.jiscord.application.channel.channel;
 
 import com.xelo.jiscord.application.channel.CreateChannel;
 import com.xelo.jiscord.application.channel.CreateChannelCommand;
-import com.xelo.jiscord.application.ports.out.ChannelRepository;
 import com.xelo.jiscord.application.ports.out.ServerRepository;
-import com.xelo.jiscord.domain.channel.Channel;
 import com.xelo.jiscord.domain.channel.ChannelType;
 import com.xelo.jiscord.domain.server.ServerId;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CreateChannelTest {
     ServerRepository serverRepository;
-    ChannelRepository channelRepository;
+    FakeChannelRepository channelRepository;
 
     @BeforeEach
     void setup() {
@@ -27,17 +26,7 @@ public class CreateChannelTest {
             }
         };
 
-        this.channelRepository = new ChannelRepository() {
-            @Override
-            public boolean existsByServerIdAndName(ServerId serverId, String name) {
-                return false;
-            }
-
-            @Override
-            public void save(Channel channel) {
-
-            }
-        };
+        this.channelRepository = new FakeChannelRepository();
     }
 
     @Test
@@ -53,5 +42,7 @@ public class CreateChannelTest {
                 IllegalArgumentException.class,
                 () -> createChannel.execute(cmd)
         );
+
+        assertFalse(channelRepository.getSaveCalled());
     }
 }
