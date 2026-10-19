@@ -2,6 +2,7 @@ package com.xelo.jiscord.application.channel;
 
 import com.xelo.jiscord.application.ports.out.ChannelRepository;
 import com.xelo.jiscord.application.ports.out.ServerRepository;
+import com.xelo.jiscord.domain.channel.ChannelId;
 
 import java.util.Objects;
 
@@ -21,8 +22,11 @@ public class CreateChannel {
         this.channelRepository = channelRepository;
     }
 
-    public void execute(CreateChannelCommand command) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public ChannelId execute(CreateChannelCommand command) {
+        if (!serverRepository.existsById(command.serverId())) {
+            throw new IllegalArgumentException("Server ID does not exist");
+        }
 
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }
