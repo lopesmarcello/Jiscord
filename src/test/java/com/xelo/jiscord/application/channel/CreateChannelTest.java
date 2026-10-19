@@ -1,7 +1,5 @@
-package com.xelo.jiscord.application.channel.channel;
+package com.xelo.jiscord.application.channel;
 
-import com.xelo.jiscord.application.channel.CreateChannel;
-import com.xelo.jiscord.application.channel.CreateChannelCommand;
 import com.xelo.jiscord.application.ports.out.ServerRepository;
 import com.xelo.jiscord.domain.channel.ChannelType;
 import com.xelo.jiscord.domain.server.ServerId;
