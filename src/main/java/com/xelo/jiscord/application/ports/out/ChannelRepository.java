@@ -1,6 +1,7 @@
 package com.xelo.jiscord.application.ports.out;
 
 import com.xelo.jiscord.domain.channel.Channel;
+import com.xelo.jiscord.domain.channel.ChannelId;
 import com.xelo.jiscord.domain.server.ServerId;
 
 public interface ChannelRepository {

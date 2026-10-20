@@ -36,6 +36,10 @@ public class Channel {
         return this.channelId;
     }
 
+    public ServerId getServerId() {
+        return this.serverId;
+    }
+
     public String getName() {
         return this.name;
     }
