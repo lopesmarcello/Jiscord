@@ -8,10 +8,7 @@ public class FakeChannelRepository implements ChannelRepository {
     private boolean exists = false;
     private boolean saveCalled = false;
 
-    public boolean exists(boolean exist) {
-        this.exists = exist;
-        return this.exists;
-    }
+    private Channel savedChannel;
 
     @Override
     public boolean existsByServerIdAndName(ServerId serverId, String name) {
@@ -21,9 +18,18 @@ public class FakeChannelRepository implements ChannelRepository {
     @Override
     public void save(Channel channel) {
         saveCalled = true;
+        savedChannel = channel;
+    }
+
+    public void setExists(boolean exist) {
+        this.exists = exist;
     }
 
     public boolean getSaveCalled() {
         return this.saveCalled;
+    }
+
+    public Channel getSavedChannel() {
+        return savedChannel;
     }
 }

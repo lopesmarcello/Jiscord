@@ -1,6 +1,9 @@
 package com.xelo.jiscord.application.channel;
 
+import com.xelo.jiscord.application.ports.out.ChannelRepository;
 import com.xelo.jiscord.application.ports.out.ServerRepository;
+import com.xelo.jiscord.domain.channel.Channel;
+import com.xelo.jiscord.domain.channel.ChannelId;
 import com.xelo.jiscord.domain.channel.ChannelType;
 import com.xelo.jiscord.domain.server.ServerId;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,39 +11,106 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CreateChannelTest {
-    ServerRepository serverRepository;
+    FakeServerRepository serverRepository;
     FakeChannelRepository channelRepository;
+
+    private CreateChannel createChannel;
+    private ServerId serverId;
 
     @BeforeEach
     void setup() {
-        this.serverRepository = new ServerRepository() {
-            @Override
-            public boolean existsById(ServerId serverId) {
-                return false;
-            }
-        };
+        serverRepository = new FakeServerRepository();
+        channelRepository = new FakeChannelRepository();
 
-        this.channelRepository = new FakeChannelRepository();
+        serverId = new ServerId(UUID.randomUUID());
+
+        createChannel = new CreateChannel(
+                serverRepository,
+                channelRepository
+        );
     }
 
     @Test
     void shouldRejectChannelCreationWhenServerDoesNotExist() {
-        ServerId svId = new ServerId(UUID.randomUUID());
-        CreateChannelCommand cmd = new CreateChannelCommand(
-                svId, "teste", ChannelType.TEXT
+        serverRepository.setExists(false);
+
+        CreateChannelCommand command = new CreateChannelCommand(
+                serverId,
+                "geral",
+                ChannelType.TEXT
         );
 
-        CreateChannel createChannel = new CreateChannel(serverRepository, channelRepository);
-
-        assertThrows(
+        IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> createChannel.execute(cmd)
+                () -> createChannel.execute(command)
+        );
+
+        assertEquals(
+                "Server ID does not exist",
+                exception.getMessage()
         );
 
         assertFalse(channelRepository.getSaveCalled());
     }
+
+    @Test
+    void shouldRejectDuplicateChannelName() {
+        serverRepository.setExists(true);
+        channelRepository.setExists(true);
+
+        CreateChannelCommand command = new CreateChannelCommand(
+                serverId,
+                "geral",
+                ChannelType.TEXT
+        );
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> createChannel.execute(command)
+        );
+
+        assertEquals(
+                "Channel already exists",
+                exception.getMessage()
+        );
+
+        assertFalse(channelRepository.getSaveCalled());
+    }
+
+    @Test
+    void shouldCreateChannelWhenDataIsValid() {
+        serverRepository.setExists(true);
+        channelRepository.setExists(false);
+
+        CreateChannelCommand command = new CreateChannelCommand(
+                serverId,
+                "geral",
+                ChannelType.TEXT
+        );
+
+        ChannelId commandResult = createChannel.execute(command);
+        assertNotNull(commandResult);
+        assertTrue(channelRepository.getSaveCalled());
+
+        Channel savedChannel = channelRepository.getSavedChannel();
+        assertNotNull(savedChannel);
+
+        assertEquals(commandResult, savedChannel.getChannelId());
+        assertEquals("geral", savedChannel.getName());
+        assertEquals(ChannelType.TEXT, savedChannel.getChannelType());
+    }
+
+    @Test
+    void shouldRejectNullCommand() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> createChannel.execute(null)
+        );
+
+        assertFalse(channelRepository.getSaveCalled());
+    }
+
 }

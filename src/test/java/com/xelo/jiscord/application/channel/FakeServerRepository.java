@@ -6,13 +6,12 @@ import com.xelo.jiscord.domain.server.ServerId;
 public class FakeServerRepository implements ServerRepository {
     private boolean exists = false;
 
-    public boolean setExists(boolean exist) {
+    public void setExists(boolean exist) {
         this.exists = exist;
-        return this.exists;
     }
 
     @Override
     public boolean existsById(ServerId serverId) {
-        return false;
+        return exists;
     }
 }
