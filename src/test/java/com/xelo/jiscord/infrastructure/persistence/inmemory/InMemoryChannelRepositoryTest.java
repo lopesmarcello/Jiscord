@@ -26,13 +26,12 @@ public class InMemoryChannelRepositoryTest {
         this.serverId = new ServerId(UUID.randomUUID());
         this.channelId = new ChannelId(UUID.randomUUID());
         this.channel = new Channel("geral", ChannelType.TEXT, serverId, channelId);
+        channelRepository.save(channel);
     }
 
     @Test
     void shouldFindSavedChannel() {
-        channelRepository.save(channel);
-        boolean exists = channelRepository.existsByServerIdAndName(serverId, "geral");
-        assertTrue(exists);
+        assertTrue(channelRepository.existsByServerIdAndName(serverId, "geral"));
     }
 
     @Test
@@ -49,8 +48,8 @@ public class InMemoryChannelRepositoryTest {
         ChannelId otherChannelId = new ChannelId(UUID.randomUUID());
         Channel otherChannel = new Channel("geral", ChannelType.TEXT, otherServerId, otherChannelId);
         assertDoesNotThrow(() -> channelRepository.save(otherChannel));
-        channelRepository.existsByServerIdAndName(serverId, "geral");
-        channelRepository.existsByServerIdAndName(otherServerId, "geral");
+        assertTrue(channelRepository.existsByServerIdAndName(serverId, "geral"));
+        assertTrue(channelRepository.existsByServerIdAndName(otherServerId, "geral"));
     }
 
     @Test
