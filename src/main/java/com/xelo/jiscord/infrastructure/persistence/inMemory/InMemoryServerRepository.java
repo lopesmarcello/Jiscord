@@ -21,7 +21,7 @@ public class InMemoryServerRepository implements ServerRepository {
             throw new IllegalArgumentException("Server can't be null");
         }
 
-        db.put(server.getServerID(), server);
+        db.put(server.getServerId(), server);
     }
 
 }

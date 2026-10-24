@@ -47,9 +47,10 @@ public class CreateChannelIntegrationTest {
                 ChannelType.TEXT
         );
 
-        createChannel.execute(createChannelCommand);
+        ChannelId createdChannelId = createChannel.execute(createChannelCommand);
 
         assertTrue(inMemoryChannelRepository.existsByServerIdAndName(serverId, "geral"));
+        assertNotNull(createdChannelId);
     }
 
     @Test
@@ -72,3 +73,8 @@ public class CreateChannelIntegrationTest {
     }
 
 }
+
+
+
+
+

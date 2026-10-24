@@ -5,7 +5,7 @@ import com.xelo.jiscord.domain.user.UserId;
 
 public class Server {
 
-    private final ServerId id;
+    private ServerId id;
     private UserId ownerId;
     private String name;
     // List<Channel>
@@ -34,7 +34,7 @@ public class Server {
     }
 
 
-    public ServerId getServerID() {
+    public ServerId getServerId() {
         return this.id;
     }
 
