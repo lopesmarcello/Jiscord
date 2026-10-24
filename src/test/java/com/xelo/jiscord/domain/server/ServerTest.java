@@ -25,7 +25,7 @@ public class ServerTest {
         Server server = new Server(serverName, ownerId, serverId);
 
         assertEquals(serverName, server.getName());
-        assertEquals(serverId, server.getServerID());
+        assertEquals(serverId, server.getServerId());
         assertEquals(ownerId, server.getOwnerId());
     }
 
