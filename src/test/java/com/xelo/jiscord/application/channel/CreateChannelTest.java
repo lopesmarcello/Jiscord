@@ -1,5 +1,7 @@
 package com.xelo.jiscord.application.channel;
 
+import com.xelo.jiscord.application.exception.DuplicatedChannelException;
+import com.xelo.jiscord.application.exception.ServerNotFoundException;
 import com.xelo.jiscord.application.ports.out.ChannelRepository;
 import com.xelo.jiscord.application.ports.out.ServerRepository;
 import com.xelo.jiscord.domain.channel.Channel;
@@ -43,8 +45,8 @@ public class CreateChannelTest {
                 ChannelType.TEXT
         );
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        ServerNotFoundException exception = assertThrows(
+                ServerNotFoundException.class,
                 () -> createChannel.execute(command)
         );
 
@@ -67,8 +69,8 @@ public class CreateChannelTest {
                 ChannelType.TEXT
         );
 
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
+        DuplicatedChannelException exception = assertThrows(
+                DuplicatedChannelException.class,
                 () -> createChannel.execute(command)
         );
 

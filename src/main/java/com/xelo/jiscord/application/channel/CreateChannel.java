@@ -1,5 +1,7 @@
 package com.xelo.jiscord.application.channel;
 
+import com.xelo.jiscord.application.exception.DuplicatedChannelException;
+import com.xelo.jiscord.application.exception.ServerNotFoundException;
 import com.xelo.jiscord.application.ports.out.ChannelRepository;
 import com.xelo.jiscord.application.ports.out.ServerRepository;
 import com.xelo.jiscord.domain.channel.Channel;
@@ -32,11 +34,11 @@ public class CreateChannel {
         }
 
         if (!serverRepository.existsById(command.serverId())) {
-            throw new IllegalArgumentException("Server ID does not exist");
+            throw new ServerNotFoundException("Server ID does not exist");
         }
 
         if (channelRepository.existsByServerIdAndName(command.serverId(), command.name())) {
-            throw new IllegalArgumentException("Channel already exists");
+            throw new DuplicatedChannelException("Channel already exists");
         }
 
         ChannelId channelId = new ChannelId(UUID.randomUUID());
