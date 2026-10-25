@@ -1,9 +1,9 @@
 package com.xelo.jiscord.application.channel;
 
+import com.xelo.jiscord.application.FakeChannelRepository;
+import com.xelo.jiscord.application.FakeServerRepository;
 import com.xelo.jiscord.application.exception.DuplicatedChannelException;
 import com.xelo.jiscord.application.exception.ServerNotFoundException;
-import com.xelo.jiscord.application.ports.out.ChannelRepository;
-import com.xelo.jiscord.application.ports.out.ServerRepository;
 import com.xelo.jiscord.domain.channel.Channel;
 import com.xelo.jiscord.domain.channel.ChannelId;
 import com.xelo.jiscord.domain.channel.ChannelType;
@@ -24,12 +24,12 @@ public class CreateChannelTest {
 
     @BeforeEach
     void setup() {
-        serverRepository = new FakeServerRepository();
-        channelRepository = new FakeChannelRepository();
+        this.serverRepository = new FakeServerRepository();
+        this.channelRepository = new FakeChannelRepository();
 
-        serverId = new ServerId(UUID.randomUUID());
+        this.serverId = new ServerId(UUID.randomUUID());
 
-        createChannel = new CreateChannel(
+        this.createChannel = new CreateChannel(
                 serverRepository,
                 channelRepository
         );

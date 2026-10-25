@@ -2,6 +2,7 @@ package com.xelo.jiscord.integration;
 
 import com.xelo.jiscord.application.channel.CreateChannel;
 import com.xelo.jiscord.application.channel.CreateChannelCommand;
+import com.xelo.jiscord.application.exception.DuplicatedChannelException;
 import com.xelo.jiscord.domain.channel.ChannelId;
 import com.xelo.jiscord.domain.channel.ChannelType;
 import com.xelo.jiscord.domain.server.Server;
@@ -67,7 +68,7 @@ public class CreateChannelIntegrationTest {
         );
 
         createChannel.execute(createChannelCommand);
-        assertThrows(IllegalArgumentException.class, () -> createChannel.execute(createChannelCommand));
+        assertThrows(DuplicatedChannelException.class, () -> createChannel.execute(createChannelCommand));
         assertTrue(inMemoryChannelRepository.existsByServerIdAndName(serverId, "geral"));
 
     }

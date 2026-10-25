@@ -4,7 +4,6 @@ import com.xelo.jiscord.application.channel.CreateChannel;
 import com.xelo.jiscord.application.channel.CreateChannelCommand;
 import com.xelo.jiscord.domain.channel.ChannelId;
 import com.xelo.jiscord.domain.server.ServerId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

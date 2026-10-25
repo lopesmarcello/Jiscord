@@ -16,6 +16,7 @@ public class InMemoryServerRepository implements ServerRepository {
         return db.containsKey(serverId);
     }
 
+    @Override
     public void save(Server server) {
         if (Objects.isNull(server)) {
             throw new IllegalArgumentException("Server can't be null");

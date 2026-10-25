@@ -1,4 +1,4 @@
-package com.xelo.jiscord.application.channel;
+package com.xelo.jiscord.application;
 
 import com.xelo.jiscord.application.ports.out.ChannelRepository;
 import com.xelo.jiscord.domain.channel.Channel;
